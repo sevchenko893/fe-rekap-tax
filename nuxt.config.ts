@@ -1,5 +1,7 @@
 export default defineNuxtConfig({
-  
+  nitro: {
+    preset: 'static' // Mode Static (SSG)
+  },
   // Nonaktifkan SSR jika menggunakan Vuetify dengan Nuxt 3
   ssr: false,
 
