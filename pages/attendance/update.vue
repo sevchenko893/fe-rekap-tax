@@ -1,35 +1,62 @@
 <template>
   <v-container>
     <v-btn @click="$router.push('/attendance')" color="secondary">Kembali</v-btn>
-    <h2>Detail Kehadiran</h2>
+    <h2>Update Kehadiran</h2>
 
     <!-- Filter Bulan & Tahun -->
     <v-form @submit.prevent="filterData">
       <v-row>
-        <v-col cols="6">
+        <v-col cols="4">
           <v-select v-model="selectedMonth" :items="months" label="Pilih Bulan" required></v-select>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="4">
           <v-select v-model="selectedYear" :items="years" label="Pilih Tahun" required></v-select>
         </v-col>
+        <v-col cols="4">
+          <v-btn type="submit" color="primary">Tampilkan Data</v-btn>
+        </v-col>
       </v-row>
-      <v-btn type="submit" color="primary">Tampilkan Data</v-btn>
     </v-form>
 
-    <!-- Menampilkan Data -->
-    <v-card v-if="filteredData">
-      <v-card-title>{{ filteredData.nama }} (NIK: {{ filteredData.nik }})</v-card-title>
-      <v-list>
-        <v-list-item v-for="(record, index) in filteredData.kehadiran" :key="index">
-          <v-list-item-content>
-            <v-list-item-title>{{ record.tanggal }}</v-list-item-title>
-            <v-list-item-subtitle>Status: {{ record.status }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-card>
+  <!-- Menampilkan Data -->
+  <v-card >
+      <v-card-title>{{ dataWorker.nama }} (NIK: {{ dataWorker.nik }})</v-card-title>
+  </v-card>
+ 
+   
+  <v-card >
+    <v-form v-if="filteredData" @submit.prevent="submitData">
+    <v-table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Tanggal</th>
+          <th>Status Kehadiran</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(record, index) in filteredData.kehadiran" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ record.tanggal }}</td>
+          <td>
+            <v-radio-group v-model="record.status" inline>
+              <v-radio label="Hadir" value="Hadir"></v-radio>
+              <v-radio label="Tidak Hadir" value="Tidak Hadir"></v-radio>
+              <v-radio label="Izin" value="Izin"></v-radio>
+            </v-radio-group>
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+  
+      <v-btn type="submit" color="primary" class="mt-3">Submit</v-btn>
+    </v-form>
 
     <v-alert v-else-if="isFiltered" type="error">Data tidak ditemukan untuk bulan & tahun ini.</v-alert>
+    </v-card>
+
+    
+
   </v-container>
 </template>
 
@@ -39,7 +66,7 @@ import { useRoute } from "vue-router";
 import attendanceData from "../attendance_january_2025.js";
 
 const route = useRoute();
-const id = parseInt(route.params.id);
+const id = parseInt(route.query.id);
 console.log('id', id)
 const selectedMonth = ref(null);
 const selectedYear = ref(null);
@@ -62,11 +89,16 @@ const months = [
   { title: "Desember", value: "12" },
 ];
 
-const years = ["2024", "2025", "2026"];
+const years = ["2024", "2025"];
+const dataWorker = attendanceData.find(item => item.id === id);
+console.log('dataWorker', dataWorker)
+// Opsi status kehadiran
+const attendanceStatuses = ["Hadir", "Tidak Hadir", "Izin"];
 
 // Fungsi untuk memfilter data berdasarkan bulan & tahun
 const filterData = () => {
   console.log('masukkk')
+  console.log('id', id)
   if (!selectedMonth.value || !selectedYear.value) return;
   const data = attendanceData.find(item => item.id === id);
 
@@ -81,6 +113,22 @@ const filterData = () => {
   } else {
     filteredData.value = null;
   }
+
+  isFiltered.value = true;
+};
+
+const submitData = () => {
+  console.log('masukkk')
+  console.log('id', id)
+
+
+  const formattedData = filteredData.value.kehadiran.map(record => ({
+    nik: filteredData.value.nik,  // Ambil NIK dari filteredData
+    tanggal: record.tanggal,      // Ambil tanggal kehadiran
+    status: record.status || "Hadir",  // Default kehadiran jika kosong
+  }));
+  console.log("Data yang disimpan:", formattedData);
+
 
   isFiltered.value = true;
 };

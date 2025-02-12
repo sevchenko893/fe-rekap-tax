@@ -4,6 +4,19 @@
 
     <!-- Tombol Kembali -->
     <v-btn color="secondary" @click="goBack">Kembali</v-btn>
+    <BaseDialog
+    v-model="isDialogOpen"
+    title="Detail Kehadiran"
+    buttonText="Tambah Absensi"
+    buttonColor="danger"
+    buttonVariant="tonal"
+    @closed="isDialogOpen = false"
+    >
+    <p><strong>NIK:</strong> {{ selectedDetail?.nik }}</p>
+    <p><strong>Nama:</strong> {{ selectedDetail?.nama }}</p>
+    <p><strong>Lokasi:</strong> {{ selectedDetail?.lokasi }}</p>
+    <p><strong>Total Kehadiran:</strong> {{ selectedDetail ? getTotalHadir(selectedDetail.kehadiran) : 0 }} Hari</p>
+    </BaseDialog>
 
     <!-- Filter -->
     <v-row class="my-4">
@@ -41,6 +54,9 @@
             <v-btn color="primary" @click="showDetail(item.id)">
               Show
             </v-btn>
+            <v-btn color="primary" @click="update(item.id)">
+              Update
+            </v-btn>
           </td>
         </tr>
       </tbody>
@@ -49,18 +65,33 @@
 </template>
 
 <script setup>
+import BaseDialog from "../../src/components/BaseDialog.vue";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import attendanceData from "../attendance_january_2025.js";
+
+const selectedDetail = ref(null);
+// Fungsi menampilkan detail menggunakan dialog
+const isDialogOpen = ref(false);
 
 const router = useRouter();
 const searchNIK = ref("");
 const selectedLocation = ref(null);
 const locations = ["cisauk", "vbi", "sumarecon bekasi"];
 
+const addAttendance = (item) => {
+  selectedDetail.value = item;
+  isDialogOpen.value = true;
+};
+
 // Fungsi navigasi ke halaman show berdasarkan ID
 const showDetail = (id) => {
   router.push(`/attendance/${id}`);
+};
+
+const update = (id) => {
+  router.push(`/attendance/update?id=${id}`);
+
 };
 
 // Fungsi kembali ke halaman utama absensi
