@@ -4,6 +4,10 @@ import { ref, watch } from "vue";
 const props = defineProps({
   fields: Array,
   modelValue: Object,
+  showSubmit: {
+    type: Boolean,
+    default: true, // Secara default tombol submit akan ditampilkan
+  },
 });
 
 const emit = defineEmits(["update:modelValue", "submit"]);
@@ -97,6 +101,6 @@ const handleMonthYearSelect = (field, date) => {
       </v-col>
     </v-row>
 
-    <v-btn color="primary" type="submit">Submit</v-btn>
+    <v-btn v-if="props.showSubmit" color="primary" type="submit">Submit</v-btn>
   </v-form>
 </template>

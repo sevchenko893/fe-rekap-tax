@@ -50,6 +50,7 @@ const toggleDrawer = () => {
 // Data menu navigasi
 const menuItems = ref([
   { title: "Dashboard", icon: "mdi-view-dashboard", route: "/" },
+  { title: "Pekerja", icon: "mdi-account-check", route: "/worker" },
   { title: "Absensi", icon: "mdi-calendar-check", route: "/attendance" },
   { title: "Tempat Proyek", icon: "mdi-office-building", route: "/projects" },
   { title: "Logout", icon: "mdi-logout", route: "/logout" },

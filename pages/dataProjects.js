@@ -3,4 +3,3 @@ export default [
     { id: 2, nama: "Proyek B", lokasi: "VBI" },
     { id: 3, nama: "Proyek C", lokasi: "Sumarecon Bekasi" }
   ];
-  
