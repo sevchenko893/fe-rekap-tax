@@ -138,7 +138,6 @@
           <td>{{ item.statusPtkp }}</td>
           <td>{{ item.penghasilan }}</td>
           <td>{{ item.lokasiProyek }}</td>
-          <td>20 Hari</td>
           <td>
             <v-btn color="primary" @click="showDetail(item.id)">
               Show
