@@ -13,11 +13,11 @@
       <v-col cols="9">
 
         <v-row >
-          <v-col cols="4">
+          <v-col cols="4" class="d-flex align-center">
             <v-text-field v-model="searchNIK" label="Cari NIK" clearable></v-text-field>
           </v-col>
           
-          <v-col cols="4">
+          <v-col cols="4" class="d-flex align-center">
             <v-select 
               v-model="selectedLocation" 
               label="Pilih Lokasi"
@@ -28,7 +28,7 @@
           </v-col>
 
 
-          <v-col cols="4">
+          <v-col cols="4" class="d-flex align-center" style="margin-top: -20px;">
             
             <v-btn type="submit" color="primary">Submit</v-btn>
           </v-col>

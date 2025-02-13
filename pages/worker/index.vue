@@ -10,13 +10,13 @@
     <br>
 
     <v-row no-gutters>
-      <v-col cols="5">
+      <v-col cols="7">
 
       </v-col>
 
-      <v-col cols="7">
-        <v-row >
-          <v-col cols="4">
+      <v-col cols="5">
+        <v-row justify="end" >
+          <v-col cols="auto">
             <BaseDialog
             v-model="isAddWorkerExcellOpen"
             title=""
@@ -36,7 +36,7 @@
 
           
 
-        <v-col cols="4">
+        <v-col cols="auto">
          
             <BaseDialog
             v-model="iseditMonthlyIncomeOpen"
@@ -54,20 +54,7 @@
             </BaseDialog>
           </v-col>
 
-          <v-col cols="4">
-            <BaseDialog
-            v-model="isDialogExporOpen"
-            title="Ekspor Pekerja dan Pajak"
-            buttonText="Ekspor"
-            buttonColor="danger"
-            buttonVariant="tonal"
-            @closed="isDialogExporOpen = false"
-            >
-            <h2>Expor </h2>
-            <br>
-            <BaseForm :fields="formFieldsExpor" v-model="formDataExpor" @submit="submitFormExpor" />
-            </BaseDialog>
-        </v-col>
+         
 
         </v-row>
       </v-col>
@@ -79,6 +66,30 @@
     <!-- Filter -->
     <v-row no-gutters>
       <v-col cols="7">
+  <v-row>
+    <v-col cols="4" >
+      <v-text-field v-model="searchNIK" label="Cari NIK" clearable></v-text-field>
+    </v-col>
+
+    <v-col cols="4" >
+      <v-select 
+        v-model="selectedLocation" 
+        label="Pilih Lokasi"
+        :items="locations" 
+        clearable>
+      </v-select>
+    </v-col>
+
+    <!-- Kolom untuk tombol -->
+    <v-col cols="4" class="d-flex align-center" style="margin-top: -20px;">
+      <v-btn type="submit" color="primary">Submit</v-btn>
+    </v-col>
+
+  </v-row>
+</v-col>
+
+
+      <!-- <v-col cols="7">
 
         <v-row >
           <v-col cols="4">
@@ -97,14 +108,15 @@
 
 
           <v-col cols="4">
-            
-            <v-btn type="submit" color="primary">Submit</v-btn>
+            <div>
+              <v-btn type="submit" color="primary">Submit</v-btn>
+            </div>
           </v-col>
 
         </v-row>
 
 
-      </v-col>
+      </v-col> -->
 
       <v-col cols="5">
 
@@ -114,6 +126,21 @@
               Add Pekerja
             </v-btn>
           </v-col>
+          <v-col cols="auto">
+            <BaseDialog
+            v-model="isDialogExporOpen"
+            title="Ekspor Pekerja dan Pajak"
+            buttonText="Ekspor"
+            buttonColor="danger"
+            buttonVariant="tonal"
+            @closed="isDialogExporOpen = false"
+            >
+            <h2>Expor </h2>
+            <br>
+            <BaseForm :fields="formFieldsExpor" v-model="formDataExpor" @submit="submitFormExpor" />
+            </BaseDialog>
+          </v-col>
+
         </v-row>
 
       </v-col>
